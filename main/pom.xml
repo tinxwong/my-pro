@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>my-pro</artifactId>
+        <groupId>com.tinx.java</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tinx.java</groupId>
+    <artifactId>main</artifactId>
+
+    <profiles>
+
+        <profile>
+            <id>app-chipin</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tinx.java</groupId>
+                    <artifactId>chipin</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>app-permission</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tinx.java</groupId>
+                    <artifactId>permission</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>app-common</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.tinx.java</groupId>
+                    <artifactId>common</artifactId>
+                    <version>0.0.1-SNAPSHOT</version>
+                </dependency>
+
+            </dependencies>
+        </profile>
+
+    </profiles>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <plugins>
+
+            <!-- 把依赖打包到lib中 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 以jar包形式发布程序 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>springloaded</artifactId>
+                        <version>1.2.5.RELEASE</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
+</project>
